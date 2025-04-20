@@ -14,4 +14,50 @@
     <string name="registration_btn_to_login">Already have an account?</string>
     <string name="registration_btn_register">Register</string>
 
+    <string name="keyboard_row1_1">ә</string>
+    <string name="keyboard_row1_2">і</string>
+    <string name="keyboard_row1_3">ң</string>
+    <string name="keyboard_row1_4">ғ</string>
+    <string name="keyboard_row1_5">ү</string>
+    <string name="keyboard_row1_6">ұ</string>
+    <string name="keyboard_row1_7">қ</string>
+    <string name="keyboard_row1_8">ө</string>
+    <string name="keyboard_row1_9">һ</string>
+    <string name="keyboard_row1_10">х</string>
+
+    <string name="keyboard_row2_1">й</string>
+    <string name="keyboard_row2_2">ц</string>
+    <string name="keyboard_row2_3">у</string>
+    <string name="keyboard_row2_4">к</string>
+    <string name="keyboard_row2_5">е</string>
+    <string name="keyboard_row2_6">н</string>
+    <string name="keyboard_row2_7">г</string>
+    <string name="keyboard_row2_8">ш</string>
+    <string name="keyboard_row2_9">щ</string>
+    <string name="keyboard_row2_10">з</string>
+    <string name="keyboard_row2_11">ъ</string>
+
+    <string name="keyboard_row3_1">ф</string>
+    <string name="keyboard_row3_2">ы</string>
+    <string name="keyboard_row3_3">в</string>
+    <string name="keyboard_row3_4">а</string>
+    <string name="keyboard_row3_5">п</string>
+    <string name="keyboard_row3_6">р</string>
+    <string name="keyboard_row3_7">о</string>
+    <string name="keyboard_row3_8">л</string>
+    <string name="keyboard_row3_9">д</string>
+    <string name="keyboard_row3_10">ж</string>
+    <string name="keyboard_row3_11">э</string>
+
+    <string name="keyboard_row4_1">я</string>
+    <string name="keyboard_row4_2">ч</string>
+    <string name="keyboard_row4_3">с</string>
+    <string name="keyboard_row4_4">м</string>
+    <string name="keyboard_row4_5">и</string>
+    <string name="keyboard_row4_6">т</string>
+    <string name="keyboard_row4_7">ь</string>
+    <string name="keyboard_row4_8">б</string>
+    <string name="keyboard_row4_9">ю</string>
+    <string name="keyboard_row4_10">del</string>
+
 </resources>
