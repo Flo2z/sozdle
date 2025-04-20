@@ -1,18 +1,18 @@
 <resources>
     <string name="app_name">sozdle</string>
 
-    <string name="login_tv">Login</string>
-    <string name="login_et_username">Enter an username</string>
-    <string name="login_et_password">Enter a password</string>
-    <string name="login_btn_to_registration">Don\'t have an account?</string>
-    <string name="login_btn_login">Login</string>
+    <string name="login_tv">Кіру</string>
+    <string name="login_et_username">Қолданушы атын енгізіңіз</string>
+    <string name="login_et_password">Құпиясөзді енгізіңіз</string>
+    <string name="login_btn_to_registration">Аккаунт жоқ па?</string>
+    <string name="login_btn_login">Кіру</string>
 
-    <string name="registration_tv">Register</string>
-    <string name="registration_et_username">Enter an username</string>
-    <string name="registration_et_password">Enter a password</string>
-    <string name="registration_et_confirm_password">Confirm a password</string>
-    <string name="registration_btn_to_login">Already have an account?</string>
-    <string name="registration_btn_register">Register</string>
+    <string name="registration_tv">Тіркелу</string>
+    <string name="registration_et_username">Қолданушы атын енгізіңіз</string>
+    <string name="registration_et_password">Құпиясөзді енгізіңіз</string>
+    <string name="registration_et_confirm_password">Құпиясөзді қайта теріңіз</string>
+    <string name="registration_btn_to_login">Аккаунт бар ма?</string>
+    <string name="registration_btn_register">Тіркелу</string>
 
     <string name="keyboard_row1_1">ә</string>
     <string name="keyboard_row1_2">і</string>
