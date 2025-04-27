@@ -60,4 +60,7 @@
     <string name="keyboard_row4_9">ю</string>
     <string name="keyboard_row4_10">del</string>
 
+
+    <string name="login_activity_incorrect_username">Қолданушы аты табылмады</string>
+    <string name="login_activity_incorrect_password">Құпиясөз қате</string>
 </resources>
