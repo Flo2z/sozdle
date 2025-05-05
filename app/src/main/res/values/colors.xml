@@ -5,4 +5,8 @@
     <color name="green">#6aaa64</color>
     <color name="yellow">#c9b458</color>
     <color name="gray">#787c7e</color>
+
+    <color name="correct_letter">#69A963</color>
+    <color name="incorrect_letter">#777B7D</color>
+    <color name="wrong_placed_letter">#C7B357</color>
 </resources>

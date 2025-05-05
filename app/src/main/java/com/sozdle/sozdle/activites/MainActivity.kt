@@ -1,6 +1,7 @@
 package com.sozdle.sozdle.activites
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.widget.Button
 import android.widget.LinearLayout
@@ -16,8 +17,8 @@ class MainActivity : AppCompatActivity() {
     private var wordLength = 5
     private var currentAttempt = 0
     private var currentLetterIndex = 0
-    private var targetWord = "ӘЛЕМ"
-    private val dictionary = listOf("ӘЛЕМ", "СӨЗДЕ", "БІЛІМ", "ТІЛЕК")
+    private var targetWord = "СӘЛЕМ"
+    private val dictionary = listOf("СӘЛЕМ", "СӨЗДЕ", "БІЛІМ", "ТІЛЕК")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         setupGameBoard()
+        setupKeyboard()
     }
 
     private fun setupGameBoard() {
@@ -59,7 +61,11 @@ class MainActivity : AppCompatActivity() {
             for (i in 1..buttonCount) {
                 val buttonId = resources.getIdentifier("keyboard_row${rowIndex}_$i", "id", packageName)
                 val button = findViewById<Button>(buttonId)
-
+                if (button == null) {
+                    Log.e("KeyboardError", "Button not found: keyboard_row${rowIndex}_$i")
+                } else {
+                    Log.d("KeyboardSetup", "Found: ${button.text}")
+                }
                 button?.setOnClickListener {
                     val text = button.text.toString()
 
@@ -81,6 +87,10 @@ class MainActivity : AppCompatActivity() {
         val letterView = currentRow.getChildAt(currentLetterIndex) as TextView
         letterView.text = letter.uppercase()
         currentLetterIndex++
+
+        if (currentLetterIndex == wordLength) {
+            onSubmitWord()
+        }
     }
 
     fun onBackspacePressed() {
@@ -122,7 +132,7 @@ class MainActivity : AppCompatActivity() {
             val correctChar = targetWord[i]
 
             if (guessedChar == correctChar) {
-                letterView.setBackgroundColor(getColor(R.color.green))
+                letterView.setBackgroundColor(getColor(R.color.correct_letter))
                 targetCharCounts[guessedChar] = targetCharCounts[guessedChar]!! - 1
             }
         }
@@ -136,10 +146,10 @@ class MainActivity : AppCompatActivity() {
             if (guessedChar == correctChar) continue
 
             if (targetCharCounts.getOrDefault(guessedChar, 0) > 0) {
-                letterView.setBackgroundColor(getColor(R.color.yellow))
+                letterView.setBackgroundColor(getColor(R.color.wrong_placed_letter))
                 targetCharCounts[guessedChar] = targetCharCounts[guessedChar]!! - 1
             } else {
-                letterView.setBackgroundColor(getColor(R.color.gray))
+                letterView.setBackgroundColor(getColor(R.color.incorrect_letter))
             }
         }
 
