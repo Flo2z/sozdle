@@ -137,11 +137,6 @@ class MainActivity : AppCompatActivity() {
             targetCharCounts[c] = targetCharCounts.getOrDefault(c, 0) + 1
         }
 
-        for (i in 0 until wordLength) {
-            val letterView = currentRow.getChildAt(i) as TextView
-
-            letterView.setTextColor(getColor(R.color.submit_word_letter_color))
-        }
 
         for (i in 0 until wordLength) {
             val letterView = currentRow.getChildAt(i) as TextView
@@ -158,6 +153,8 @@ class MainActivity : AppCompatActivity() {
             } else {
                 letterView.setBackgroundColor(getColor(R.color.incorrect_letter))
             }
+
+            letterView.setTextColor(getColor(R.color.submit_word_letter_color))
         }
 
 //        val rows = listOf(
