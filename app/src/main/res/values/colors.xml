@@ -9,4 +9,8 @@
     <color name="correct_letter">#69A963</color>
     <color name="incorrect_letter">#777B7D</color>
     <color name="wrong_placed_letter">#C7B357</color>
+    <color name="submit_word_letter_color">#FDFDFD</color>
+    <color name="not_submitted_letter_color">#000000</color>
+    <color name="keyboard_key_background_color">#D1D4D8</color>
+    <color name="background_color">#FDFDFD</color>
 </resources>

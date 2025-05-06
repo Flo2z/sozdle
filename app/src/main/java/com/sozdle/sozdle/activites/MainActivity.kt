@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     private var currentLetterIndex = 0
     private var targetWord = "СӘЛЕМ"
     private val dictionary = listOf("СӘЛЕМ", "СӨЗДЕ", "БІЛІМ", "ТІЛЕК")
+    private var keyboardLocked: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +29,12 @@ class MainActivity : AppCompatActivity() {
         setupGameBoard()
         setupKeyboard()
     }
+
+    private fun onGameWin(){
+        showToast("Дұрыс таптың!")
+        keyboardLocked = true
+    }
+
 
     private fun setupGameBoard() {
         for (row in 1..maxAttempts) {
@@ -68,7 +75,6 @@ class MainActivity : AppCompatActivity() {
                 }
                 button?.setOnClickListener {
                     val text = button.text.toString()
-
                     when (text.lowercase()) {
                         "del", "←" -> onBackspacePressed()
                         "ok", "enter", "✓" -> onSubmitWord()
@@ -79,31 +85,36 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun onKeyPressed(letter: String) {
-        if (currentLetterIndex >= wordLength) return
+    private fun onKeyPressed(letter: String) {
+        if(!keyboardLocked){
+            if (currentLetterIndex >= wordLength) return
 
-        val rowId = resources.getIdentifier("game_layout_row${currentAttempt + 1}", "id", packageName)
-        val currentRow = findViewById<LinearLayout>(rowId)
-        val letterView = currentRow.getChildAt(currentLetterIndex) as TextView
-        letterView.text = letter.uppercase()
-        currentLetterIndex++
+            val rowId = resources.getIdentifier("game_layout_row${currentAttempt + 1}", "id", packageName)
+            val currentRow = findViewById<LinearLayout>(rowId)
+            val letterView = currentRow.getChildAt(currentLetterIndex) as TextView
+            letterView.text = letter.uppercase()
+            currentLetterIndex++
 
-        if (currentLetterIndex == wordLength) {
-            onSubmitWord()
+            if (currentLetterIndex == wordLength) {
+                onSubmitWord()
+            }
         }
     }
 
-    fun onBackspacePressed() {
-        if (currentLetterIndex == 0) return
+    private fun onBackspacePressed() {
+        if(!keyboardLocked) {
+            if (currentLetterIndex == 0) return
 
-        currentLetterIndex--
-        val rowId = resources.getIdentifier("game_layout_row${currentAttempt + 1}", "id", packageName)
-        val currentRow = findViewById<LinearLayout>(rowId)
-        val letterView = currentRow.getChildAt(currentLetterIndex) as TextView
-        letterView.text = ""
+            currentLetterIndex--
+            val rowId =
+                resources.getIdentifier("game_layout_row${currentAttempt + 1}", "id", packageName)
+            val currentRow = findViewById<LinearLayout>(rowId)
+            val letterView = currentRow.getChildAt(currentLetterIndex) as TextView
+            letterView.text = ""
+        }
     }
 
-    fun onSubmitWord() {
+    private fun onSubmitWord() {
         if (currentLetterIndex < wordLength) return
 
         val rowId = resources.getIdentifier("game_layout_row${currentAttempt + 1}", "id", packageName)
@@ -128,13 +139,8 @@ class MainActivity : AppCompatActivity() {
 
         for (i in 0 until wordLength) {
             val letterView = currentRow.getChildAt(i) as TextView
-            val guessedChar = guessWord[i]
-            val correctChar = targetWord[i]
 
-            if (guessedChar == correctChar) {
-                letterView.setBackgroundColor(getColor(R.color.correct_letter))
-                targetCharCounts[guessedChar] = targetCharCounts[guessedChar]!! - 1
-            }
+            letterView.setTextColor(getColor(R.color.submit_word_letter_color))
         }
 
         for (i in 0 until wordLength) {
@@ -142,10 +148,11 @@ class MainActivity : AppCompatActivity() {
             val guessedChar = guessWord[i]
             val correctChar = targetWord[i]
 
-            // already colored green, skip
-            if (guessedChar == correctChar) continue
-
-            if (targetCharCounts.getOrDefault(guessedChar, 0) > 0) {
+            if (guessedChar == correctChar) {
+                letterView.setBackgroundColor(getColor(R.color.correct_letter))
+                targetCharCounts[guessedChar] = targetCharCounts[guessedChar]!! - 1
+            }
+            else if (targetCharCounts.getOrDefault(guessedChar, 0) > 0) {
                 letterView.setBackgroundColor(getColor(R.color.wrong_placed_letter))
                 targetCharCounts[guessedChar] = targetCharCounts[guessedChar]!! - 1
             } else {
@@ -153,8 +160,35 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+//        val rows = listOf(
+//            Pair(1, 10),
+//            Pair(2, 11),
+//            Pair(3, 11),
+//            Pair(4, 10)
+//        )
+//        for(z in 0 until wordLength) {
+//            val guessedChar = guessWord[z]
+//            val correctChar = targetWord[z]
+//
+//            for ((rowIndex, buttonCount) in rows) {
+//                for (i in 1..buttonCount) {
+//                    val buttonId =
+//                        resources.getIdentifier("keyboard_row${rowIndex}_$i", "id", packageName)
+//                    val button = findViewById<Button>(buttonId)
+//                    if (button == null) {
+//                        Log.e(
+//                            "KeyboardError",
+//                            "Coloring button not found: keyboard_row${rowIndex}_$i"
+//                        )
+//                    } else {
+//                        Log.d("KeyboardSetup", "Coloring found: ${button.text}")
+//                    }
+//                    button?.setTextColor(getColor(R.color.submit_word_letter_color))
+//                }
+//            }
+//        }
         if (guessWord == targetWord) {
-            showToast("Дұрыс таптың!")
+            onGameWin()
             return
         }
 
@@ -165,6 +199,7 @@ class MainActivity : AppCompatActivity() {
             showToast("Сөз: $targetWord")
         }
     }
+
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
