@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:padding="24dp"
+        android:background="#FFF3E0">
+
+    <TextView
+            android:id="@+id/menu_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ойын параметрлері"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="#212121"
+            android:layout_marginBottom="32dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+            android:id="@+id/word_length_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Сөз ұзындығы"
+            android:textSize="20sp"
+            android:textColor="#212121"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/menu_title" />
+
+    <com.google.android.material.slider.Slider
+            android:id="@+id/wordLengthBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:valueFrom="4"
+            android:value="5"
+            android:valueTo="8"
+            android:stepSize="1"
+            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="16dp"
+            app:thumbColor="#4CAF50"
+            app:trackColor="#4CAF50"
+            app:haloColor="#A5D6A7"
+            app:labelBehavior="gone"
+            app:layout_constraintTop_toBottomOf="@id/word_length_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/wordLength" />
+
+    <TextView
+            android:id="@+id/wordLength"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="32sp"
+            android:textColor="#212121"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintTop_toBottomOf="@id/word_length_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="5" />
+
+    <TextView
+            android:id="@+id/max_guesses_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Табу саны"
+            android:textSize="20sp"
+            android:textColor="#212121"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/wordLengthBar" />
+
+    <com.google.android.material.slider.Slider
+            android:id="@+id/maxGuessesBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:valueFrom="1"
+            android:value="6"
+            android:valueTo="20"
+            android:stepSize="1"
+            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="16dp"
+            app:thumbColor="#4CAF50"
+            app:trackColor="#4CAF50"
+            app:haloColor="#A5D6A7"
+            app:labelBehavior="gone"
+            app:layout_constraintTop_toBottomOf="@id/max_guesses_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/maxGuesses" />
+
+    <TextView
+            android:id="@+id/maxGuesses"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="32sp"
+            android:textColor="#212121"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintTop_toBottomOf="@id/max_guesses_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="6" />
+
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/logoutButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Шығу"
+            android:textSize="16sp"
+            android:layout_marginTop="32dp"
+            android:layout_marginHorizontal="16dp"
+            app:cornerRadius="8dp"
+            app:backgroundTint="#0288D1"
+            android:textColor="@android:color/white"
+            app:layout_constraintTop_toBottomOf="@id/maxGuessesBar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/play"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Ойнау"
+            android:textSize="20sp"
+            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="16dp"
+            app:cornerRadius="8dp"
+            app:backgroundTint="#4CAF50"
+            android:textColor="@android:color/white"
+            app:layout_constraintTop_toBottomOf="@id/logoutButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

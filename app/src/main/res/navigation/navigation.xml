@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/nav_graph"
+        app:startDestination="@id/loginFragment">
+
+    <fragment
+            android:id="@+id/loginFragment"
+            android:name="com.sozdle.sozdle.fragments.LoginFragment"
+            android:label="Login">
+        <action
+                android:id="@+id/action_login_to_registration"
+                app:destination="@id/registrationFragment" />
+        <action
+                android:id="@+id/action_login_to_menu"
+                app:destination="@id/menuFragment"
+                app:popUpTo="@id/loginFragment"
+                app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+            android:id="@+id/registrationFragment"
+            android:name="com.sozdle.sozdle.fragments.RegistrationFragment"
+            android:label="Registration">
+        <action
+                android:id="@+id/action_registration_to_login"
+                app:destination="@id/loginFragment" />
+    </fragment>
+
+    <fragment
+            android:id="@+id/menuFragment"
+            android:name="com.sozdle.sozdle.fragments.MenuFragment"
+            android:label="Menu">
+        <action
+                android:id="@+id/action_menu_to_game"
+                app:destination="@id/gameFragment" />
+        <action
+                android:id="@+id/action_menu_to_login"
+                app:destination="@id/loginFragment"
+                app:popUpTo="@id/loginFragment"
+                app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+            android:id="@+id/gameFragment"
+            android:name="com.sozdle.sozdle.fragments.GameFragment"
+            android:label="Game" />
+</navigation>
