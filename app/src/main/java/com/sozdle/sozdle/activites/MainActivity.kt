@@ -1,6 +1,8 @@
 package com.sozdle.sozdle.activites
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
@@ -15,8 +17,10 @@ import android.util.Log
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.ListView
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
@@ -44,6 +48,8 @@ import org.json.JSONObject
 
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var  sharedPref:SharedPreferences
+
     fun addBorderToTextView(tv: TextView, colorStateList: ColorStateList) {
         val border = GradientDrawable()
         border.shape = GradientDrawable.RECTANGLE
@@ -374,9 +380,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.game)
 
         // Load LoginFragment on startup
+        sharedPref = getSharedPreferences("UserInfo", Context.MODE_PRIVATE)
+        if(!sharedPref.getString("loggedInUser", "empty").equals("empty")){
+
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, LoginFragment())
             .commit()
+            }
     }
 
 
