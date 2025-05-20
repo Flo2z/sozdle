@@ -1,6 +1,10 @@
 package com.sozdle.sozdle.activites
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.Typeface
+import android.graphics.drawable.GradientDrawable
 import okhttp3.*
 import okhttp3.Request
 import okhttp3.Response
@@ -18,6 +22,8 @@ import android.widget.TableRow
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat
 import com.google.android.material.slider.Slider
 import com.sozdle.sozdle.R
 import com.sozdle.sozdle.fragments.LoginFragment
@@ -38,6 +44,17 @@ import org.json.JSONObject
 
 
 class MainActivity : AppCompatActivity() {
+    fun addBorderToTextView(tv: TextView, colorStateList: ColorStateList) {
+        val border = GradientDrawable()
+        border.shape = GradientDrawable.RECTANGLE
+        border.setColor(colorStateList.defaultColor) // Background color inside the border
+
+        // Extract the default color from the ColorStateList
+        border.setStroke(4, Color.BLACK)
+
+        border.cornerRadius = 8f // Optional: rounded corner
+        tv.background = border
+    }
     private fun game(wordsOfLength: List<String>, wordLength: Int, maxGuesses: Int) {
         supportActionBar?.show()
         setContentView(R.layout.game)
@@ -59,8 +76,10 @@ class MainActivity : AppCompatActivity() {
                 label.height = (labelSize - padding)
                 label.textSize = (labelSize / 3).toFloat()
                 label.gravity = Gravity.CENTER
-                label.setTextColor(getColorStateList(R.color.textColor))
-                label.setBackgroundResource(R.color.grey)
+                label.setTypeface(null, Typeface.BOLD)
+                inputLabels[i].setTextColor(getColorStateList(R.color.black))
+                label.setBackgroundResource(R.color.white)
+                addBorderToTextView(label, getColorStateList(R.color.white))
 
                 val params = TableRow.LayoutParams(labelSize, labelSize)
                 params.setMargins(padding, padding, padding, padding)
@@ -97,12 +116,13 @@ class MainActivity : AppCompatActivity() {
             row.setPadding(0, 0, 0, 0)
             for (character in keys) {
                 val key = Button(this)
-                key.backgroundTintList = getColorStateList(R.color.grey)
+                key.backgroundTintList = getColorStateList(R.color.keyboard_key_background_color)
                 key.text = character.toString()
-                key.setTextColor(getColorStateList(R.color.textColor))
+                key.setTextColor(getColorStateList(R.color.black))
                 key.textSize = 34f
                 key.textAlignment = Button.TEXT_ALIGNMENT_CENTER
                 key.setPadding(0, 0, 0, 0)
+                key.setTypeface(null, Typeface.BOLD)
                 key.layoutParams = LinearLayout.LayoutParams(
                     105,
                     160
@@ -113,24 +133,26 @@ class MainActivity : AppCompatActivity() {
 
             keyboard.addView(row)
         }
-        makeKeyRow("ркұғүқөңп")
-        makeKeyRow("әіангшжзх")
-        makeKeyRow("очсмитбыд")
-        makeKeyRow("елһу>?")
+        makeKeyRow("әіңғүұқөһ")
+        makeKeyRow("йукенгшзх")
+        makeKeyRow("ывапролдж")
+        makeKeyRow("ячсмитб←✓")
 
 
         fun newGame() {
             for (labels in inputLabelsList) {
                 for (label in labels) {
                     label.text = ""
-                    label.backgroundTintList = getColorStateList(R.color.grey)
+                    label.setTextColor(getColorStateList(R.color.black))
+                    label.backgroundTintList = getColorStateList(R.color.white)
                 }
             }
             for (list in inputStrings) {
                 list.fill('\u0000')
             }
             for (button in keyToButton.values) {
-                button.backgroundTintList = getColorStateList(R.color.grey)
+                button.setTextColor(ContextCompat.getColor(this, R.color.black))
+                button.backgroundTintList = getColorStateList(R.color.keyboard_key_background_color)
             }
             rowNum = 0
             inputLen = 0
@@ -145,7 +167,7 @@ class MainActivity : AppCompatActivity() {
                 if (stopInputs) {
                     return@setOnClickListener
                 }
-                if (key == '?') {
+                if (key == '✓') {
                     if (inputLen != wordLength) {
                         return@setOnClickListener
                     }
@@ -173,24 +195,28 @@ class MainActivity : AppCompatActivity() {
                         val guess = inputString[i]
                         val correctCharacter = chosenWord[i]
 
+                        inputLabels[i].setTextColor(getColorStateList(R.color.white))
+                        keyToButton[guess]!!.setTextColor(getColorStateList(R.color.white))
                         if (guess == correctCharacter) {
                             inputLabels[i].backgroundTintList =
-                                getColorStateList(R.color.green)
-                            keyToButton[guess]!!.backgroundTintList = getColorStateList(R.color.green)
+                                getColorStateList(R.color.correct_letter)
+                            keyToButton[guess]!!.backgroundTintList = getColorStateList(R.color.correct_letter)
                         } else {
                             allCorrect = false
                             if (chosenWord.contains(guess)) {
                                 inputLabels[i].backgroundTintList =
-                                    getColorStateList(R.color.orange)
+                                    getColorStateList(R.color.wrong_placed_letter)
                                 keyToButton[guess]!!.let {
-                                    if (it.backgroundTintList != getColorStateList(R.color.green)) {
-                                        it.backgroundTintList = getColorStateList(R.color.orange)
+                                    if (it.backgroundTintList != getColorStateList(R.color.correct_letter)) {
+                                        it.backgroundTintList = getColorStateList(R.color.wrong_placed_letter)
                                     }
                                 }
                             } else {
+                                inputLabels[i].backgroundTintList=
+                                    getColorStateList(R.color.incorrect_letter)
                                 keyToButton[guess]!!.let {
-                                    if (it.backgroundTintList == getColorStateList(R.color.grey)) {
-                                        it.backgroundTintList = getColorStateList(R.color.black)
+                                    if (it.backgroundTintList == getColorStateList(R.color.keyboard_key_background_color)) {
+                                        it.backgroundTintList = getColorStateList(R.color.incorrect_letter)
                                     }
                                 }
                             }
@@ -237,7 +263,7 @@ class MainActivity : AppCompatActivity() {
                     inputLen = 0
                     inputLabels = inputLabelsList[rowNum]
 
-                } else if (key == '>') {
+                } else if (key == '←') {
                     if (inputLen != 0) {
                         inputLen -= 1
                         inputLabels[inputLen].text = ""
