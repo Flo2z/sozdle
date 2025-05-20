@@ -1,7 +1,9 @@
 package com.sozdle.sozdle.activites
 import android.app.AlertDialog
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -13,6 +15,9 @@ import okhttp3.Response
 import okhttp3.Call
 import okhttp3.Callback
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.os.ResultReceiver
 import android.util.Log
 import android.view.Gravity
 import android.view.Menu
@@ -23,6 +28,7 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.PopupMenu
+import android.widget.ProgressBar
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
@@ -30,10 +36,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.material.slider.Slider
 import com.sozdle.sozdle.R
 import com.sozdle.sozdle.activities.InstructionActivity
 import com.sozdle.sozdle.fragments.LoginFragment
+import com.sozdle.sozdle.services.AiService
 import com.sozdle.sozdle.services.CsvDownloadService
 import java.io.InputStream
 import java.net.URL
@@ -267,9 +275,11 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     if (rowNum + 1 == maxGuesses) {
-                        // Out of guesses
                         stopInputs = true
 
+                        val intent = Intent(this, AiService::class.java)
+                        intent.putExtra("word", chosenWord) // Example Kazakh word
+                        startService(intent)
                         runOnUiThread {
                             AlertDialog.Builder(this)
                                 .setTitle("ойын бітті")
@@ -406,10 +416,39 @@ class MainActivity : AppCompatActivity() {
             super.onOptionsItemSelected(item)
         }
     }
+    private lateinit var aiReceiver: BroadcastReceiver
+    private var loadingDialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.game)
+
+        aiReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                loadingDialog?.dismiss()
+                val word = intent.getStringExtra("word")
+                val ru  = intent.getStringExtra("translation_ru")
+                val en  = intent.getStringExtra("translation_en")
+                val def = intent.getStringExtra("definition")
+
+                // show a dialog with translations + definition
+                AlertDialog.Builder(this@MainActivity)
+                    .setTitle("Аударма мен анықтама")
+                    .setMessage("""
+                        Сөз: $word
+                        Орысша: $ru
+                        Ағылшынша: $en
+
+                        Definition:
+                        $def
+                    """.trimIndent())
+                    .setPositiveButton("Жақсы") { dlg, _ -> dlg.dismiss() }
+                    .show()
+
+            }
+        }
+        LocalBroadcastManager.getInstance(this)
+            .registerReceiver(aiReceiver, IntentFilter("AI_RESPONSE"))
 
         // Load LoginFragment on startup
         sharedPref = getSharedPreferences("UserInfo", Context.MODE_PRIVATE)
@@ -431,6 +470,12 @@ class MainActivity : AppCompatActivity() {
                 .commit()
         }
         }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        LocalBroadcastManager.getInstance(this)
+            .unregisterReceiver(aiReceiver)
+    }
 
 
 

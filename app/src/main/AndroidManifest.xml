@@ -26,9 +26,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activites.AiResultActivity" />
 
         <activity android:name=".activities.InstructionActivity" />
 
+        <service android:name=".services.AiService" />
         <service android:name=".services.CsvDownloadService" />
     </application>
 

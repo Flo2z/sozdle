@@ -23,12 +23,12 @@ class CsvDownloadService : Service() {
         val wordLength = intent?.getIntExtra("wordLength", 5) ?: 5
 
         scheduler.scheduleWithFixedDelay({
-            val ip = "192.168.0.101"
+            val ip = "192.168.100.151"
 
             val url = "http://$ip:8080/api/words/csv/words_${wordLength}_letters.csv"
             downloadCsv(url, wordLength)
 
-        }, 0, 15, TimeUnit.SECONDS)
+        }, 0, 30, TimeUnit.SECONDS)
 
         return START_STICKY
     }
