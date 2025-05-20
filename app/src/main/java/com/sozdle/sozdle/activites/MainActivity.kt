@@ -17,10 +17,12 @@ import android.util.Log
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.ListView
+import android.widget.PopupMenu
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
@@ -50,7 +52,7 @@ import org.json.JSONObject
 class MainActivity : AppCompatActivity() {
     private lateinit var  sharedPref:SharedPreferences
 
-    fun addBorderToTextView(tv: TextView, colorStateList: ColorStateList) {
+    private fun addBorderToTextView(tv: TextView, colorStateList: ColorStateList) {
         val border = GradientDrawable()
         border.shape = GradientDrawable.RECTANGLE
         border.setColor(colorStateList.defaultColor) // Background color inside the border
@@ -60,6 +62,29 @@ class MainActivity : AppCompatActivity() {
 
         border.cornerRadius = 8f // Optional: rounded corner
         tv.background = border
+    }
+
+    private fun showPopupMenu(anchorView: View) {
+        val popupMenu = PopupMenu(this, anchorView)
+        popupMenu.menuInflater.inflate(R.menu.popup_menu, popupMenu.menu)
+
+        popupMenu.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.menu_clear_prefs -> {
+                    getSharedPreferences("UserInfo", MODE_PRIVATE).edit().clear().apply()
+                    Toast.makeText(this, "Өшірілді", Toast.LENGTH_SHORT).show()
+                    finish()
+                    true
+                }
+                R.id.menu_exit -> {
+                    finish()
+                    true
+                }
+                else -> false
+            }
+        }
+
+        popupMenu.show()
     }
     private fun game(wordsOfLength: List<String>, wordLength: Int, maxGuesses: Int) {
         supportActionBar?.show()
@@ -331,7 +356,7 @@ class MainActivity : AppCompatActivity() {
 
         val logoutButton = findViewById<Button>(R.id.logoutButton)
         logoutButton.setOnClickListener {
-            finish()
+            showPopupMenu(logoutButton)
         }
     }
 
@@ -381,13 +406,24 @@ class MainActivity : AppCompatActivity() {
 
         // Load LoginFragment on startup
         sharedPref = getSharedPreferences("UserInfo", Context.MODE_PRIVATE)
-        if(!sharedPref.getString("loggedInUser", "empty").equals("empty")){
+        if(sharedPref.contains("loggedInUser")){
 
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, LoginFragment())
-            .commit()
+            if(sharedPref.getString("loggedInUser", "empty").equals("empty")){
+                //do nothing
             }
-    }
+            else{
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, LoginFragment())
+                    .commit()
+            }
+
+        }
+        else{
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, LoginFragment())
+                .commit()
+        }
+        }
 
 
 
