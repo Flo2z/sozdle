@@ -32,6 +32,7 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import com.google.android.material.slider.Slider
 import com.sozdle.sozdle.R
+import com.sozdle.sozdle.activities.InstructionActivity
 import com.sozdle.sozdle.fragments.LoginFragment
 import com.sozdle.sozdle.services.CsvDownloadService
 import java.io.InputStream
@@ -357,6 +358,12 @@ class MainActivity : AppCompatActivity() {
         val logoutButton = findViewById<Button>(R.id.logoutButton)
         logoutButton.setOnClickListener {
             showPopupMenu(logoutButton)
+        }
+
+        val instructionButton = findViewById<Button>(R.id.instructionButton)
+        instructionButton.setOnClickListener {
+            val intent = Intent(this, InstructionActivity::class.java)
+            startActivity(intent)
         }
     }
 

@@ -27,6 +27,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".activities.InstructionActivity" />
+
         <service android:name=".services.CsvDownloadService" />
     </application>
 
